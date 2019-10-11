@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fetch Api</title>
+
+    <style>
+        
+        *{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-family: tahoma;
+            color: #d2d2d2;
+            box-sizing: border-box;
+        }
+
+        body{
+            background: #2d2d2d;
+        }
+
+        h1{
+            margin-bottom: 8px
+        }
+
+        p{
+            margin-bottom: 16px
+        }
+
+        ul{
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        li{
+            display: block;
+            list-style: none;
+            max-width: 160px;
+            width: 50%;
+            margin: 16px 16px 32px 
+        }
+
+        img{
+            border-radius: 100%;
+            display: block;
+            margin: auto;
+            margin-bottom: 8px
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <h1>Javascript Fetch Json Data</h1>
+    <p>Fetch user data randomuser.me api</p>
+
+    <ul id="container"></ul>
+    
+
+    <script>
+
+        // Definir local onde os dados serão inseridos
+        const ul = document.getElementById('container'); 
+        
+
+        // Buscar usuarios na api
+        const url = 'https://randomuser.me/api/?results=25';
+
+
+        // Cria tag html informada como parametro
+        function createNode(element) {
+            return document.createElement(element); 
+        }
+
+
+        // Recebe dois elementos e insere o segundo como elemento filho do primeiro
+        function append(parent, el) {
+            return parent.appendChild(el); 
+        }
+
+        
+        fetch(url)
+            .then( res => res.json() )
+            .then( data => {
+                
+                // Armazenar o resultado na variavel users
+                let users = data.results; 
+
+                // Executar o codigo abaixo para cada usuario encontrado
+                return users.map( user => { 
+                
+                    //  Criar elementos necessários
+                    let li = createNode('li'), 
+                        img = createNode('img'),
+                        span = createNode('span');
+                    
+                    // Definir atributo src da imagem
+                    img.src = user.picture.medium;
+
+                    // Definir nome e sobrenome do usuario
+                    span.innerHTML = `${user.name.first} ${user.name.last}`; 
+
+                    // Fazer append dos elementos
+                    append(li, img); 
+                    append(li, span);
+                    append(ul, li);
+
+                });
+
+        });
+
+    </script>
+</body>
+</html>
